@@ -1,0 +1,23 @@
+{% extends 'layout.html' %}
+{% block main %}
+
+<div role="main">
+    <div class="container">
+        <h2>All Blog Posts</h2>
+
+        {% for post in posts %}
+            <div class="post">
+                <h3><a href="{{ url_for('users.view_post', post_id=post.id) }}">{{ post.title }}</a></h3>
+                <p class="post-meta">Posted on {{ post.date.strftime('%B %d, %Y') }} by {{ post.author.username }}</p>
+                <p class="post-excerpt">{{ post.content[:200] }}...</p>
+                <a href="{{ url_for('users.view_post', post_id=post.id) }}">Read More</a>
+            </div>
+        {% endfor %}
+
+        {% if not posts %}
+            <p>No blog posts available.</p>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

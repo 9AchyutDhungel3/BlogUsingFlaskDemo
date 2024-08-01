@@ -1,0 +1,33 @@
+{% extends 'layout.html' %} {% block main%}
+<main>
+  <div class="container form-container">
+    <form action="{{ url_for('posts.new_post') }}" method="post">
+
+      <!-- this below is required for form valdation to succeed -->
+      {{ form.hidden_tag() }}
+      <h2>Create new post</h2>
+
+      
+
+    <!-- Post title  -->
+        <div class="form-group">
+          {{ form.title.label}}
+          <br>
+          {{ form.title }}
+        </div>
+
+    <!-- Post content -->
+        <div class="form-group">
+          {{ form.content.label}} 
+          {{ form.content}}
+        </div>
+
+    <!-- Post Submit -->
+        <div class="form-group button">
+          {{ form.submit(class_="button") }}
+        </div>
+
+
+
+</main>
+{% endblock %}

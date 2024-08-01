@@ -1,0 +1,20 @@
+# Ignore database instance
+instance/
+
+# Ignore Python cache directories
+__pycache__/
+*.pyc
+
+# Ignore environment variables file
+.env
+
+# Ignore virtual environments
+venv/
+env/
+
+# Ignore other specific files or folders
+*.log
+*.sqlite3
+
+# Ignore selfNOte
+selfNote.txt

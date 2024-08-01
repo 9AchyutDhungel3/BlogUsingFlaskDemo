@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title%}{% endblock %}</title>
+    <link rel="stylesheet" href={{url_for('static', filename='style.css')}} />
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <div class="right">
+          <h1><a href="{{url_for('main.index')}}">My blog</a></h1>
+          <nav class="nav-left">
+            <ul>
+              <li><a href="{{url_for('main.index')}}">Home</a></li>
+              <li><a href="{{url_for('posts.blogs')}}">Blogs</a></li>
+            </ul>
+          </nav>
+        </div>
+        <div class="left">
+          <nav class="nav-right">
+        {% if current_user.is_authenticated %}
+          <ul>
+            <li><a href="{{ url_for('posts.new_post' ) }}">New Post</a></li>
+            <li><a href="{{ url_for('users.account') }}">Account</a></li>
+            <li><a href="{{ url_for('users.logout') }}">Logout</a></li>
+          </ul>
+        {% else %}
+          <ul>
+            <li><a href="{{url_for('users.login')}}">Login</a></li>
+            <li><a href="{{url_for('users.register')}}">Register</a></li>
+          </ul>
+        {% endif %}
+          </nav>
+        </div>
+      </div>
+    </header>
+    <main>
+        {% block main %}{% endblock %}
+    </main>
