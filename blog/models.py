@@ -29,7 +29,7 @@ class User(db.Model, UserMixin):
 
     def get_reset_token(self, expires_sec=1800):
         s = Serializer(current_app.config['SECRET_KEY'].encode('utf-8'), expires_sec)
-        return s.dumps({'user_id': self.id}).decode('utf-8')
+        return s.dumps({'user_id': self.id}, b'itsdangerous').encode('utf-8') # this solved the error of trying to '+' int and byte type ( we converted) salt to byte.
     
     @staticmethod  # This makes sure that the below method doesn't expect the self as the first argument, which it normally does being a class's method
     def verify_reset_token(token):
