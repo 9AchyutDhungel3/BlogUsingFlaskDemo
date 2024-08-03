@@ -3,7 +3,7 @@ from flask import url_for
 
 
 def send_reset_email(user):
-    token = user.get_reset_token()
+    token = user.get_reset_token().decode('utf-8')  # Decode the token to remove the 'b' prefix
     conn = smtplib.SMTP("smtp.gmail.com", 587)
     conn.ehlo()
     conn.starttls()
@@ -12,6 +12,14 @@ def send_reset_email(user):
     password = os.getenv('EMAIL_PASS')
     conn.login(email, password)
     
-    conn.sendmail(email, user.email, f'''Password Reset Request\n\nTo reset your password, visit the following link: 
-{url_for('users.reset_token', token=token, _external=True)}
-If you didn't make this request then simply ignore this email and no changes will be made.''' )
+    reset_link = url_for('users.reset_token', token=token, _external=True)
+    
+    message = f'''Subject: Password Reset Request
+
+To reset your password, visit the following link: 
+{reset_link}
+
+If you didn't make this request then simply ignore this email and no changes will be made.'''
+    
+    conn.sendmail(email, user.email, message)
+    conn.quit()
