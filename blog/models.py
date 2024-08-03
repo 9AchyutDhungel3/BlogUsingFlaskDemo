@@ -35,10 +35,10 @@ class User(db.Model, UserMixin):
     def verify_reset_token(token):
         s = Serializer(current_app.config['SECRET_KEY'])
         try:
-            user_id = s.loads(token)
+            user_id = s.loads(token)['user_id']
         except:
             return None
-        return User.query.get(user_id['user_id'])  # returns the User object (which also contains email of that particular user) with the given user_id.        
+        return User.query.get(user_id)  # returns the User object (which also contains email of that particular user) with the given user_id.        
 
 
 class Post(db.Model):
