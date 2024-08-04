@@ -1,20 +1,26 @@
 {% extends 'layout.html' %} {% block main%}
 <main>
-  <div class="container">
-    <h3>Recent Posts</h3>
-    <div class="post">
+  <div class="container mt-4 container-fluid">
+    <h1 class="mb-4">Recent Posts</h1>
 
       {% for post in posts %}
-      
-      <h2> {{ post.title }} </h2>
 
-      <p class="post-meta"> By {{ post.author.username }}<br>Posted on {{ post.published_date.strftime('%Y-%m-%d') }} </p>
-      <p> {{ post.content }} </p>
+      <h2 class=" card-title">{{ post.title }}</h2>
+
+      <p class="text-muted">
+        <small class="text-muted"></small>
+        By {{ post.author.username }}
+        <br/>
+        Posted on {{post.published_date.strftime('%Y-%m-%d') }}
+      </p>
+      <p>{{ post.content }}</p>
       <a href="blog.html"> Read More </a>
 
       {% endfor %}
-
     </div>
   </div>
 </main>
+
+
+
 {% endblock %}

@@ -4,10 +4,11 @@
 from flask import Blueprint, render_template
 from blog.models import Post
 
-main = Blueprint('main', __name__)
+main = Blueprint("main", __name__)
+
 
 @main.route("/")
 @main.route("/index")
 def index():
     posts = Post.query.all()
-    return render_template('index.html', posts=posts)
+    return render_template("index.html", posts=posts)
