@@ -1,5 +1,5 @@
 import bcrypt
-from flask import Blueprint, flash, redirect, render_template, url_for
+from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_required, login_user, logout_user
 from blog import db
 from blog.models import User
@@ -8,6 +8,7 @@ from blog.users.forms import (
     RegistrationForm,
     RequestResetForm,
     ResetPasswordForm,
+    EditProfileForm
 )
 from blog.users.utils import send_reset_email
 
@@ -21,9 +22,28 @@ def account():
 
 
 @login_required
-@users.route("/edit_profile")
+@users.route("/edit_profile", methods=['GET', 'POST'])
 def edit_profile():
-    return render_template("edit_profile.html")
+    form = EditProfileForm()
+    # After the user submits the form.
+    if form.validate_on_submit():
+        # I first though that we would have to requery the database , but turns out we
+        # can simply use the current_user 
+        current_user.username = form.username.data # set the data to whatever was 
+        # submitted using the form
+        current_user.email = form.email.data
+        db.session.commit()
+        flash('Your profile has been updated! ', 'success')
+        return redirect(url_for('users.account'))
+    # After the user is requesting the form before filling and submitting.
+    elif request.method == 'GET':
+        # Prefill the forms with previous data so that it is easier to make minor 
+        # modifications
+        form.username.data = current_user.username        
+        form.email.data = current_user.email
+    # Here the template 'edit_profile.html' gets the prefilled form which the user
+    # can then modify accordingly.
+    return render_template("edit_profile.html", form=form) 
 
 
 @users.route("/login", methods=["GET", "POST"])
