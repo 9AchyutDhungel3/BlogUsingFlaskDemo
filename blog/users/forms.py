@@ -46,7 +46,10 @@ class RegistrationForm(FlaskForm):
                 "That email is taken. Please choose a different email"
             )
 
-
+class EditProfileForm(FlaskForm):
+    username = StringField("New Username", validators=[DataRequired()])
+    email = EmailField("New Email", validators=[DataRequired()])
+    submit = SubmitField("Update Profile")
 # class ChangePasswordForm(FlaskForm):
 #     current_password = PasswordField('Current Password', validators=[DataRequired()])
 #     new_password = PasswordField('New Password', validators=[DataRequired()])
