@@ -1,34 +1,32 @@
-{% extends 'layout.html' %} {% block main%}
-<main>
-  <div class="container form-container">
-    <form action="{{ url_for('users.login') }}" method="post">
-      <!-- this below is required for form valdation to succeed -->
-      {{ form.hidden_tag() }}
-      <h2>Login</h2>
-        <div class="form-group">
-          {{ form.username.label}} {{ form.username }}
+{% extends 'layout.html' %}
+{% block main %}
+  <main>
+    <div class="container form-container form-group p-4">
+      <form action="{{ url_for("users.login") }}" method="post" class="p-4">
+        <!-- this below is required for form validation to succeed -->
+        {{ form.hidden_tag() }}
+        <h2>Login</h2>
+        <div class="mb-3">
+          {{ form.username.label(class="form-label") }}
+          {{ form.username(class="form-control custom-textfield") }}
         </div>
-        <div class="form-group">
-          {{ form.password.label}} {{ form.password}}
+        <div class="mb-3">
+          {{ form.password.label(class="form-label") }}
+          {{ form.password(class="form-control custom-textfield") }}
         </div>
-        <div class="form-group">
-          {{ form.remember_me }}{{ form.remember_me.label }}
+        <div class="mb-3 form-check">
+          {{ form.remember_me(class="form-check-input") }}
+          {{ form.remember_me.label(class="form-check-label") }}
         </div>
-      <div class="flash">
-        {% for message in get_flashed_messages() %}
-        <p class="error">{{ message }}</p>
-        {% endfor %}
+        <div class="flash">
+          {% for message in get_flashed_messages() %}<p class="error">{{ message }}</p>{% endfor %}
+        </div>
+        <div class="form-group button">{{ form.submit(class_="btn btn-primary") }}</div>
+        <br>
+      </form>
+      <div>
+        Already have an account? <a href="{{ url_for("users.login") }}">Click here</a>
       </div>
-      
-
-      <!-- single_trailing_underscore_ : used by convention to avoid conflicts with Python Keyword 
-
-                ( https://peps.python.org/pep-0008/#:~:text=_single_leading_underscore%3A%20weak%20%E2%80%9Cinternal%20use%E2%80%9D%20indicator.%20E.g.%20from%20M%20import%20*%20does%20not%20import%20objects%20whose%20names%20start%20with%20an%20underscore ) -->
-
-      <div class="form-group button">{{ form.submit(class_="button")}}</div>
-      <div class="form-group"><a href="{{ url_for('users.reset_request') }}">Forgot Password</a></div>
-    </form>
-    <div>Need an account? <a href="{{ url_for('users.register') }}">Click here</a></div>
-  </div>
-</main>
+    </div>
+  </main>
 {% endblock %}

@@ -1,26 +1,19 @@
-{% extends 'layout.html' %} {% block main%}
-<main>
-  <div class="container mt-4 container-fluid">
-    <h1 class="mb-4">Recent Posts</h1>
-
+{% extends 'layout.html' %}
+{% block main %}
+  <main>
+    <div class="main-container  mt-4 container-fluid">
+      <h1 class="mb-3 p-2">Recent Posts</h1>
       {% for post in posts %}
-
-      <h2 class=" card-title">{{ post.title }}</h2>
-
-      <p class="text-muted">
-        <small class="text-muted"></small>
-        By {{ post.author.username }}
-        <br/>
-        Posted on {{post.published_date.strftime('%Y-%m-%d') }}
-      </p>
-      <p>{{ post.content }}</p>
-      <a href="blog.html"> Read More </a>
-
+        <h2 class="card-title">{{ post.title }}</h2>
+        <p class="text-muted">
+          <small class="text-muted"></small>
+          By {{ post.author.username }}
+          <br />
+          Posted on {{ post.published_date.strftime("%Y-%m-%d") }}
+        </p>
+        <p>{{ post.content }}</p>
+        <a href="blog.html">Read More</a>
       {% endfor %}
     </div>
-  </div>
-</main>
-
-
-
+  </main>
 {% endblock %}

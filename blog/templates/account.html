@@ -1,38 +1,44 @@
 {% extends 'layout.html' %}
 {% block main %}
-
-<div role="main">
+  <div class="main-container">
     <div class="container">
-        <h2>My Account</h2>
-
-        {% if current_user.is_authenticated %}
-            <div class="account-info">
-                <h3>Account Details</h3>
-                <p><strong>Username:</strong> {{ current_user.username }}</p>
-                <p><strong>Email:</strong> {{ current_user.email }}</p>
+      <h2>My Account</h2>
+      {% if current_user.is_authenticated %}
+        <div class="account-info">
+          <h3>Account Details</h3>
+          <img src={{ image_file }} alt="userimage">
+          <p>
+            <strong>Username:</strong> {{ current_user.username }}
+          </p>
+          <p>
+            <strong>Email:</strong> {{ current_user.email }}
+          </p>
+        </div>
+        <div class="account-actions">
+          <h3>Account Actions</h3>
+          <ul class="list-group">
+            <li class="list-group-item">
+              <a class="btn btn-primary" href="{{ url_for("users.reset_request") }}">Reset password</a>
+            </li>
+            <li class="list-group-item">
+              <a class="btn btn-primary" href="{{ url_for("users.edit_profile") }}">Edit Profile</a>
+            </li>
+            <li class="list-group-item">
+              <a class="btn btn-primary" href="{{ url_for("posts.manage_posts") }}">Manage My Posts</a>
+            </li>
+            <ul>
+              <li>
+                {% if get_flashed_messages() %}
+                  <div class="flash">
+                    {% for message in get_flashed_messages() %}<p>{{ message }}</p>{% endfor %}
+                  </div>
+                {% endif %}
+              {% else %}
+                <p>
+                  Please <a href="{{ url_for("users.login") }}">login</a> to view your
+                  account information.
+                </p>
+              {% endif %}
             </div>
-
-            <div class="account-actions">
-                <h3>Account Actions</h3>
-                <ul>
-                    <li><a href="{{ url_for('users.reset_request') }}">Reset password</a></li>
-                    <li><a href="{{ url_for('users.edit_profile') }}">Edit Profile</a></li>
-                    <li><a href="{{ url_for('posts.manage_posts') }}">Manage My Posts</a></li>
-                </ul>
-            </div>
-
-            {% if get_flashed_messages() %}
-                <div class="flash">
-                    {% for message in get_flashed_messages() %}
-                        <p>{{ message }}</p>
-                    {% endfor %}
-                </div>
-            {% endif %}
-
-        {% else %}
-            <p>Please <a href="{{ url_for('users.login') }}">login</a> to view your account information.</p>
-        {% endif %}
-    </div>
-</div>
-
-{% endblock %}
+          </div>
+        {% endblock %}
