@@ -3,7 +3,9 @@
 <div role="main">
   <div class="container form-container">
     <h2>Edit Profile</h2>
-    <form method="POST" action="{{ url_for('users.edit_profile') }}">
+    <form method="post"
+          action="{{ url_for("users.edit_profile") }}"
+          enctype="multipart/form-data">
       {{ form.hidden_tag() }}
 
       <div class="form-group">
