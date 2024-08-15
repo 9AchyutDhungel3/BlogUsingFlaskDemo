@@ -1,24 +1,15 @@
-{% extends 'layout.html' %} {% block main %}
-
-<div role="main">
-  <div class="container form-container">
+{% extends 'layout.html' %}
+{% block main %}
+  <div class="container form-container form-group p-4">
     <h2>Edit Profile</h2>
     <form method="post"
           action="{{ url_for("users.edit_profile") }}"
           enctype="multipart/form-data">
       {{ form.hidden_tag() }}
-
-      <div class="form-group">
-        {{ form.username.label }} {{ form.username(class="form-control") }}
-      </div>
-
-      <div class="form-group">
-        {{ form.email.label }} {{ form.email(class="form-control") }}
-      </div>
-
-      <div class="form-group">{{ form.submit(class="button") }}</div>
+      <div class="form-group mb-3">{{ form.username.label }} {{ form.username(class="form-control") }}</div>
+      <div class="form-group mb-3">{{ form.email.label }} {{ form.email(class="form-control") }}</div>
+      <div class="form-group mb-3">{{ form.picture.label }} {{ form.picture(class="form-control-file") }}</div>
+      <div class="form-group mb-3">{{ form.submit(class="btn btn-primary") }}</div>
     </form>
   </div>
-</div>
-
 {% endblock %}

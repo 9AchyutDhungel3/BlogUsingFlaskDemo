@@ -10,7 +10,7 @@ from blog.users.forms import (
     ResetPasswordForm,
     EditProfileForm
 )
-from blog.users.utils import send_reset_email
+from blog.users.utils import send_reset_email, save_picture
 
 users = Blueprint("users", __name__)
 
@@ -18,7 +18,11 @@ users = Blueprint("users", __name__)
 @login_required
 @users.route("/account")
 def account():
-    return render_template("account.html")
+    image_file = url_for(
+        "static",
+        filename="profile_pics/" + current_user.image_file,
+    )
+    return render_template("account.html", image_file=image_file)
 
 
 @login_required
@@ -32,6 +36,12 @@ def edit_profile():
         current_user.username = form.username.data # set the data to whatever was 
         # submitted using the form
         current_user.email = form.email.data
+        if form.picture.data:
+            print("Picture data is there")
+            picture_fn = save_picture(form.picture.data)
+            current_user.image_file = picture_fn
+        else:
+            print("Picture data is not there")
         db.session.commit()
         flash('Your profile has been updated! ', 'success')
         return redirect(url_for('users.account'))

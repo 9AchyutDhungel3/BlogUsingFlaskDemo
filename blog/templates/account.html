@@ -1,12 +1,14 @@
 {% extends 'layout.html' %}
 {% block main %}
   <div class="main-container">
-    <div class="container">
+    <div class="container form-container form-group p-4">
       <h2>My Account</h2>
       {% if current_user.is_authenticated %}
         <div class="account-info">
           <h3>Account Details</h3>
-          <img src={{ image_file }} alt="userimage">
+          <div class="profile-pic p-4">
+            <img class="rounded-circle img-fluid img-thumbnail " src={{ image_file }} alt="Profile pic">
+          </div>
           <p>
             <strong>Username:</strong> {{ current_user.username }}
           </p>
@@ -26,19 +28,19 @@
             <li class="list-group-item">
               <a class="btn btn-primary" href="{{ url_for("posts.manage_posts") }}">Manage My Posts</a>
             </li>
-            <ul>
-              <li>
-                {% if get_flashed_messages() %}
-                  <div class="flash">
-                    {% for message in get_flashed_messages() %}<p>{{ message }}</p>{% endfor %}
-                  </div>
-                {% endif %}
-              {% else %}
-                <p>
-                  Please <a href="{{ url_for("users.login") }}">login</a> to view your
-                  account information.
-                </p>
-              {% endif %}
+          </ul>
+          {% if get_flashed_messages() %}
+            <div class="flash">
+              {% for message in get_flashed_messages() %}<p>{{ message }}</p>{% endfor %}
             </div>
-          </div>
-        {% endblock %}
+          {% endif %}
+        {% else %}
+          <p>
+            Please <a href="{{ url_for("users.login") }}">login</a> to view your
+            account information.
+          </p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endblock %}

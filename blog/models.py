@@ -21,10 +21,10 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, unique=True, nullable=False)
     email = db.Column(db.String, unique=True, nullable=False)
+    image_file = db.Column(db.String, nullable=False, default="default.jpg")
     password = db.Column(db.String, nullable=False)
-    posts = db.relationship(
-        "Post", backref="author", lazy=True
-    )  # Note that this is not a column
+    posts = db.relationship("Post", backref="author", lazy=True)
+    # Note that this is not a column
     # If you see this is a table you won't see this as column.
     # Also note that we passed the class name "Post" as argument
     # One user may have many posts
@@ -35,11 +35,12 @@ class User(db.Model, UserMixin):
 
     def get_reset_token(self, expires_sec=1800):
         s = Serializer(current_app.config["SECRET_KEY"].encode("utf-8"), expires_sec)
-        return s.dumps({"user_id": self.id}, b"itsdangerous").encode(
-            "utf-8"
-        )  # this solved the error of trying to '+' int and byte type ( we converted salt to byte).
+        return s.dumps({"user_id": self.id}, b"itsdangerous").encode("utf-8")
+        # this solved the error of trying to '+' int and byte type ( we converted salt to byte).
 
-    @staticmethod  # This makes sure that the below method doesn't expect the self as the first argument, which it normally does being a class's method
+    @staticmethod
+    # This makes sure that the below method doesn't expect the self as the first argument, which it
+    # normally does being a class's method
     def verify_reset_token(token):
         s = Serializer(current_app.config["SECRET_KEY"])
         try:
